@@ -69,10 +69,8 @@ func SearchSongsApi(term string) ([]models.Song, error) {
 
 func SearchSongsDatabase(term string) ([]models.Song, error) {
 	var songs []models.Song
-	err := db.DB.Model(&songs).
-		Where("name LIKE ?", "%Nirvana%").
+	db.DB.Model(&songs).
+		Where("name LIKE ?", "%"+term+"%").
 		Select()
-
-	fmt.Println(err, term, songs)
 	return nil, nil
 }

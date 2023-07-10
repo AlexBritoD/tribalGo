@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: Ejercicio Go - Tribal Worldwide
+  description: |-
+    Ejercicio hecho en go para poder consultar un api rest y guardar resultado en base de datos
+  version: 1.0.11
+servers:
+  - url: https://localhost:8080
+paths:
+  /api/search:
+    get:
+      tags:
+        - search
+      summary: Buscar canciones por nombre, artista, album
+      description: Hace una busqueda en iTunes para traer las canciones que contengan el termino buscado en el nombre, artista o album 
+      operationId: term
+      parameters:
+        - name: Authorization
+          in: header
+          description: valor para poder acceder al api
+          required: true
+          schema:
+            type: string
+            default: YOUR_AUTH_TOKEN
+          
+        - name: term
+          in: query
+          description: Valor buscado en el api
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'
+        '400':
+          description: Invalid status value
+      security:
+        - authorization:
+            - read:pets
+  
+components:
+  schemas:
+    Data:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Agua
+        artist:
+          type: string
+          example: Jarabe de Palo
+        duration:
+          type: string
+          example: 4:14
+        album:
+          type: string
+          example: Depende
+        artwork:
+          type: string
+          example: https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/89/f7/df/89f7dff7-13cd-0e29-41ed-e7016ba671e3/0724384718855_1401x1401_300dpi.jpg/60x60bb.jpg
+        price:
+          type: string
+          example: 10.99 USD
+        origin:
+          type: string
+          example: apple
+      xml:
+        name: category
+    Song:
+      type: object
+      properties:
+        success:
+          type: boolean
+          format: bool
+          example: true
+        message:
+          type: string
+          example: Songs found
+        data:
+          $ref: '#/components/schemas/Data'
+      xml:
+        name: pet
+  requestBodies:
+    Song:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Song'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Song'
+  securitySchemes:
+    authorization:
+      type: apiKey
+      name: Authorization 
+      in: header

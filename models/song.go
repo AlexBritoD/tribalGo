@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"search/song/db"
 )
 
@@ -16,8 +17,10 @@ type Song struct {
 }
 
 func SaveSong(song *Song) error {
+	db.Connect()
 	_, err := db.DB.Model(song).OnConflict("DO NOTHING").Insert()
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	return nil
