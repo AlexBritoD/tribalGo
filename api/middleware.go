@@ -10,7 +10,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authToken := c.GetHeader("Authorization")
 
-		if authToken != "YOUR_AUTH_TOKEN" {
+		if authToken != "tribal_ejercicio_go" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 			return
 		}

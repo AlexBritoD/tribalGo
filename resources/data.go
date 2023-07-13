@@ -70,7 +70,9 @@ func SearchSongsApi(term string) ([]models.Song, error) {
 func SearchSongsDatabase(term string) ([]models.Song, error) {
 	var songs []models.Song
 	db.DB.Model(&songs).
-		Where("name LIKE ?", "%"+term+"%").
+		Where("name like ?", "%"+term+"%").
+		WhereOr("album like ?", "%"+term+"%").
+		WhereOr("artist like ?", "%"+term+"%").
 		Select()
-	return nil, nil
+	return songs, nil
 }

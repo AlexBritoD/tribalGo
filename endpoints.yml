@@ -21,7 +21,7 @@ paths:
           required: true
           schema:
             type: string
-            default: YOUR_AUTH_TOKEN
+            default: tribal_ejercicio_go
           
         - name: term
           in: query

@@ -17,8 +17,6 @@ func Connect() {
 		Database: os.Getenv("POSTGRES_DB"),
 	})
 
-	fmt.Println(os.Getenv("DB_HOST"), os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
-
 	if DB == nil {
 		fmt.Println("Failed to connect to PostgreSQL database")
 		os.Exit(1)
