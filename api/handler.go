@@ -15,7 +15,7 @@ func Search(c *gin.Context) {
 	term := c.Query("term")
 
 	if term == "" {
-		utils.ErrorResponse(c, http.StatusBadRequest, "Term parameter is required")
+		utils.ErrorResponse(c, http.StatusBadRequest, "Parameter is required")
 		return
 	}
 
@@ -26,10 +26,11 @@ func Search(c *gin.Context) {
 	}
 
 	for _, song := range songs {
-		fmt.Println("entre")
 		err := models.SaveSong(&song)
 		if err != nil {
-			// Handle error, e.g., log it
+			fmt.Println(err)
+			utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to save songs")
+			return
 		}
 	}
 
